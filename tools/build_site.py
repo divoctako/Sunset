@@ -186,7 +186,7 @@ def scoop_photo(code, cls):
 
 
 def flavors(_):
-    """TOP12 best sellers (cut-out photos), then category chips and every flavor."""
+    """TOP12 best sellers (cut-out photos), then category chips and every flavor (drawn scoops)."""
     data = json.loads(FLAVORS.read_text(encoding="utf-8"))
     by_code = {f["code"]: f for c in data["categories"] for f in c["flavors"]}
     best = data["best"]
@@ -218,8 +218,7 @@ def flavors(_):
         for f in c["flavors"]:
             b, s, l = f["color"]
             is_best = f["code"] in best
-            art = (scoop_photo(f["code"], "fl-img") if is_best else
-                   f'<svg class="fl-svg" style="--b:{b};--s:{s};--l:{l}" aria-hidden="true" focusable="false"><use href="#scoop"/></svg>')
+            art = f'<svg class="fl-svg" style="--b:{b};--s:{s};--l:{l}" aria-hidden="true" focusable="false"><use href="#scoop"/></svg>'
             tag = '<span class="fl-best">BEST SELLER</span>' if is_best else ""
             out.append(
                 f'<li class="fl-card{" is-best" if is_best else ""}" id="flv-{f["code"]}">'

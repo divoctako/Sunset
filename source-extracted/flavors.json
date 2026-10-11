@@ -1,6 +1,6 @@
 {
   "source": "Owner's menu posters 'ICE CREAM FLAVORS' (2 pages) and 'TOP12 BEST SELLER' (source-extracted/menu/top12.jpg). Names and Thai descriptions copied as written on the menu.",
-  "note": "color = [base, shade, highlight] for the drawn scoop. 'best' lists the TOP12 in poster order; their photos are cut by tools/cut_scoops.py. The poster's 'Pistachio honey cheese' is shown as 'Pistachio' (owner request).",
+  "note": "color = [base, shade, highlight] for the drawn scoop. 'best' lists the TOP12 in poster order; their photos (TOP12 row only) are cut by tools/cut_scoops.py; the full list draws every flavor as a scoop. The poster's 'Pistachio honey cheese' is shown as 'Pistachio' (owner request).",
   "best": [
     "ptm",
     "hon",
