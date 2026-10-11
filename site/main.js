@@ -111,6 +111,30 @@
     });
   }
 
+  /* ---------- Flavors: category chips filter the list ---------- */
+  const flvGroups = document.querySelector('.flv-groups');
+  if (flvGroups) {
+    const chips = [...document.querySelectorAll('.flv-chip')];
+    const groups = [...flvGroups.querySelectorAll('.flv-group')];
+    const showCat = cat => {
+      chips.forEach(c => c.setAttribute('aria-pressed', String(c.dataset.cat === cat)));
+      groups.forEach(g => { g.hidden = cat !== 'all' && g.dataset.cat !== cat; });
+      flvGroups.classList.remove('swap');
+      void flvGroups.offsetWidth;
+      flvGroups.classList.add('swap');
+    };
+    chips.forEach(c => c.addEventListener('click', () => {
+      showCat(c.dataset.cat);
+      c.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
+    }));
+    // A best-seller photo links to its card; make sure that card's category is showing.
+    document.querySelectorAll('.fb-link').forEach(a => a.addEventListener('click', () => {
+      const card = document.querySelector(a.getAttribute('href'));
+      const group = card && card.closest('.flv-group');
+      if (group && group.hidden) showCat('all');
+    }));
+  }
+
   /* ---------- Active section in menu ---------- */
   const navLinks = [...nav.querySelectorAll('a')];
   const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
@@ -400,7 +424,7 @@
 
   /* Tap an empty spot: pop a falling scoop into sprinkles, or toss a new one */
   const BUSY = 'a, button, input, label, dialog, .site-header, .fab, .pmap-card, .col-text, .hero-copy, .hero-media, ' +
-    '.pkg-card, .gallery, .contact-links, .frame, .photo-strip, .site-footer';
+    '.pkg-card, .gallery, .contact-links, .frame, .photo-strip, .site-footer, .flavors-box';
   document.addEventListener('click', e => {
     if (reduceMotion.matches || e.button !== 0 || e.target.closest(BUSY)) return;
     if (window.getSelection && String(window.getSelection())) return;

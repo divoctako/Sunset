@@ -13,6 +13,11 @@ All visible text comes from `source-extracted/website-copy-verbatim.json` (Word 
 2. Run `python tools/build_site.py` to rebuild `site/index.html`.
 3. Run `python tools/verify_copy.py` to confirm every piece of text matches the JSON exactly.
 
+## Editing flavors
+Flavor names, codes, Thai descriptions, scoop colours and the TOP12 list live in `source-extracted/flavors.json`.
+Best-seller photos are cut from `source-extracted/menu/top12.jpg` by `python tools/cut_scoops.py` (needs `opencv-python-headless`).
+Then run `python tools/build_site.py`.
+
 ## Editing images or prices
 Prices live inside the posters `image5.png` (Starter set) and `image8.png` (Pro set).
 1. Replace the file in `source-extracted/` using the same name.

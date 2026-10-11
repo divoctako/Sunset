@@ -81,7 +81,7 @@ h1, h2, h3, p, ul { margin: 0; }
 .site-nav a[aria-current="true"] { background: var(--orange-soft); color: var(--orange-deep); }
 .nav-toggle { display: none; }
 
-@media (max-width: 1279px) {
+@media (max-width: 1499px) {
   .nav-toggle {
     display: grid; place-items: center;
     width: 48px; height: 48px; border-radius: 999px;
@@ -639,4 +639,110 @@ body.lb-open .scoop-layer { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .pin-body, .pin-shadow { opacity: 1; translate: none; transform-origin: 50% 100%; }
   .pin-shadow { transform: none; }
+}
+
+/* ---------- Ice cream flavors: TOP12 photos, category chips, full list ---------- */
+.flavors-box {
+  position: relative; z-index: 2; display: grid; gap: 18px;
+  background: rgba(255, 255, 255, .8);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3); backdrop-filter: blur(10px) saturate(1.3);
+  border: 1.5px solid rgba(246, 134, 26, .18); border-radius: 32px;
+  padding: clamp(20px, 3vw, 40px);
+  box-shadow: 0 18px 40px -26px rgba(169, 71, 0, .45);
+}
+.flavors-title { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; letter-spacing: .08em; }
+.flv-sub {
+  justify-self: start; margin-top: 4px; padding: 6px 16px; border-radius: 999px;
+  background: var(--ink); color: #F3E6D3;
+  font: 700 15px/1.4 var(--font-display); letter-spacing: .14em;
+}
+.flv-code {
+  display: inline-block; padding: 0 8px; border-radius: 999px;
+  background: var(--orange-soft); color: var(--orange-deep);
+  font: 600 12px/20px var(--font-display); letter-spacing: .06em;
+}
+
+/* TOP12 best sellers */
+.flv-best { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.fb-link {
+  display: grid; justify-items: center; gap: 6px; height: 100%;
+  padding: 14px 10px 16px; border-radius: 24px; text-decoration: none; text-align: center;
+  background: radial-gradient(circle at 50% 42%, #fff 0 38%, var(--cream) 39%);
+  border: 2px solid transparent;
+  transition: border-color .2s, background-color .2s;
+}
+.fb-photo { display: block; width: min(100%, 170px); aspect-ratio: 1; }
+.fb-img {
+  width: 100%; height: 100%; object-fit: contain;
+  filter: drop-shadow(0 12px 10px rgba(80, 40, 10, .28));
+  transition: transform .45s cubic-bezier(.3, 1.6, .5, 1);
+}
+.fb-name { font: 700 17px/1.3 var(--font-display); color: var(--ink); }
+.fb-link:hover, .fb-link:focus-visible { border-color: var(--orange); }
+.fb-link:hover .fb-img, .fb-link:focus-visible .fb-img { transform: translateY(-8px) rotate(-6deg) scale(1.06); }
+
+/* Category chips */
+.flv-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.flv-chip {
+  flex: none; min-height: 44px; padding: 8px 16px; border-radius: 999px; cursor: pointer;
+  border: 2px solid rgba(246, 134, 26, .45); background: #fff; color: var(--ink);
+  font: 600 14px/1.3 var(--font-display); letter-spacing: .08em;
+  transition: background-color .2s, border-color .2s, color .2s;
+  -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(246, 134, 26, .18); touch-action: manipulation;
+}
+.flv-chip:hover { border-color: var(--orange); background: var(--cream); }
+.flv-chip[aria-pressed="true"] { background: var(--orange-deep); border-color: var(--orange-deep); color: #fff; }
+.chip-n { opacity: .7; font-weight: 500; }
+
+/* Every flavor, by category */
+.flv-groups { display: grid; gap: 22px; }
+.flv-cat {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 10px;
+  font: 700 15px/1.4 var(--font-display); letter-spacing: .2em; color: var(--ink-soft);
+}
+.flv-cat::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: rgba(246, 134, 26, .25); }
+.flv-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.fl-card {
+  display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px 12px 10px;
+  border-radius: 20px; background: var(--cream); border: 2px solid transparent;
+  scroll-margin-top: calc(var(--header-h) + 80px);
+  transition: border-color .2s, background-color .2s;
+}
+.fl-card.is-best { background: #FFEFD9; }
+.fl-card:hover { border-color: rgba(246, 134, 26, .5); background: #fff; }
+.fl-card:target { animation: flvFlash 1.6s ease; }
+@keyframes flvFlash { 0%, 60% { border-color: var(--orange); background: #fff; box-shadow: 0 0 0 4px rgba(246, 134, 26, .2); } }
+.fl-art { flex: none; width: 60px; height: 60px; display: grid; place-items: center; }
+.fl-svg { width: 56px; height: 52px; filter: drop-shadow(0 5px 4px rgba(80, 40, 10, .18)); }
+.fl-img { width: 60px; height: 60px; object-fit: contain; filter: drop-shadow(0 5px 4px rgba(80, 40, 10, .25)); }
+.fl-svg, .fl-img { transition: transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+.fl-card:hover .fl-svg, .fl-card:hover .fl-img { transform: translateY(-4px) rotate(-8deg); }
+.fl-text { display: grid; gap: 2px; min-width: 0; }
+.fl-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.fl-name { font: 700 17px/1.3 var(--font-display); color: var(--ink); }
+.fl-best {
+  padding: 0 8px; border-radius: 999px; background: var(--orange); color: #fff;
+  font: 700 10px/18px var(--font-display); letter-spacing: .1em;
+}
+.fl-desc { font-size: 14px; line-height: 1.6; color: var(--ink-soft); }
+.flv-groups.swap .fl-card { animation: flvIn .4s cubic-bezier(.3, 1.3, .5, 1) both; }
+@keyframes flvIn { from { opacity: 0; transform: translateY(12px) scale(.97); } }
+
+@media (max-width: 1023px) {
+  .flv-best { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .flv-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  .flavors-box { border-radius: 26px; padding: 18px 14px; }
+  .flv-best { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .fb-name { font-size: 15px; }
+  .flv-list { grid-template-columns: minmax(0, 1fr); }
+  /* Chips scroll sideways and stay under the header while browsing the list */
+  .flv-chips {
+    position: sticky; top: var(--header-h); z-index: 3;
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    margin: 10px -14px 0; padding: 10px 14px;
+    background: rgba(255, 255, 255, .94);
+  }
+  .flv-chips::-webkit-scrollbar { display: none; }
 }

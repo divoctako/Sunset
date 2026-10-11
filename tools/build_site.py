@@ -168,6 +168,70 @@ def plist(_):
     return '<ul class="plist">' + "".join(items) + "</ul>"
 
 
+FLAVORS = ROOT / "source-extracted" / "flavors.json"
+
+SCOOP_SYMBOL = (
+    '<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">'
+    '<symbol id="scoop" viewBox="0 0 100 92">'
+    '<path d="M50 4C76 4 94 22 94 46c0 8-2 14-5 18 4 2 6 6 5 10-1 5-7 7-11 4-2 5-8 7-12 3-3 5-10 6-14 2-4 4-11 3-14-2-4 4-10 3-12-2-5 3-11 1-12-4-1-4 1-8 5-10-3-4-5-10-5-18C6 22 24 4 50 4z" '
+    'fill="var(--b)" stroke="var(--s)" stroke-width="3" stroke-linejoin="round"/>'
+    '<path d="M12 62c10 8 24 10 38 10s28-2 38-10" fill="none" stroke="var(--s)" stroke-width="3" stroke-linecap="round" opacity=".55"/>'
+    '<ellipse cx="34" cy="24" rx="12" ry="7" fill="var(--l)" opacity=".85" transform="rotate(-25 34 24)"/>'
+    '</symbol></svg>')
+
+
+def scoop_photo(code, cls):
+    return (f'<picture><source type="image/webp" srcset="assets/flavors/{code}.webp">'
+            f'<img class="{cls}" src="assets/flavors/{code}.png" alt="" width="400" height="400" loading="lazy" decoding="async"></picture>')
+
+
+def flavors(_):
+    """TOP12 best sellers (cut-out photos), then category chips and every flavor."""
+    data = json.loads(FLAVORS.read_text(encoding="utf-8"))
+    by_code = {f["code"]: f for c in data["categories"] for f in c["flavors"]}
+    best = data["best"]
+    total = len(by_code)
+
+    out = [SCOOP_SYMBOL,
+           f'<h3 class="flv-sub" data-x="flavors_best" data-reveal>{esc(extra["flavors_best"]["text"])}</h3>',
+           '<ul class="flv-best">']
+    for i, code in enumerate(best):
+        f = by_code[code]
+        out.append(
+            f'<li class="fb-card" data-reveal="pop" style="--d:{i % 4}">'
+            f'<a class="fb-link" href="#flv-{code}">'
+            f'<span class="fb-photo">{scoop_photo(code, "fb-img")}</span>'
+            f'<span class="fb-name">{esc(f["name"])}</span>'
+            f'<span class="flv-code">{esc(code)}</span></a></li>')
+    out.append('</ul>')
+
+    chips = [f'<button class="flv-chip" type="button" data-cat="all" aria-pressed="true">'
+             f'<span data-x="flavors_all">{esc(extra["flavors_all"]["text"])}</span> <span class="chip-n">{total}</span></button>']
+    for c in data["categories"]:
+        chips.append(f'<button class="flv-chip" type="button" data-cat="{c["id"]}" aria-pressed="false">'
+                     f'{esc(c["name"])} <span class="chip-n">{len(c["flavors"])}</span></button>')
+    out.append('<div class="flv-chips" role="group" aria-label="หมวดรสชาติ">' + "".join(chips) + '</div>')
+
+    out.append('<div class="flv-groups">')
+    for c in data["categories"]:
+        out.append(f'<div class="flv-group" data-cat="{c["id"]}"><h3 class="flv-cat">{esc(c["name"])}</h3><ul class="flv-list">')
+        for f in c["flavors"]:
+            b, s, l = f["color"]
+            is_best = f["code"] in best
+            art = (scoop_photo(f["code"], "fl-img") if is_best else
+                   f'<svg class="fl-svg" style="--b:{b};--s:{s};--l:{l}" aria-hidden="true" focusable="false"><use href="#scoop"/></svg>')
+            tag = '<span class="fl-best">BEST SELLER</span>' if is_best else ""
+            out.append(
+                f'<li class="fl-card{" is-best" if is_best else ""}" id="flv-{f["code"]}">'
+                f'<span class="fl-art">{art}</span>'
+                f'<span class="fl-text"><span class="fl-head"><span class="fl-name">{esc(f["name"])}</span>'
+                f'<span class="flv-code">{esc(f["code"])}</span>{tag}</span>'
+                f'<span class="fl-desc">{esc(f["desc"])}</span></span></li>')
+        out.append('</ul></div>')
+    out.append('</div>')
+    return "".join(out)
+
+
 def render(tpl):
     def sub(match):
         kind, arg = match.group(1), match.group(2)
@@ -189,13 +253,15 @@ def render(tpl):
             return pmap(arg)
         if kind == "plist":
             return plist(arg)
+        if kind == "flavors":
+            return flavors(arg)
         if kind == "drip":
             return drip(arg)
         if kind == "strip":
             return strip(arg)
         raise ValueError(kind)
 
-    return re.sub(r"\{\{(p|a|head|pic|zoom|drip|strip|x|xhref|pmap|plist):([^}]+)\}\}", sub, tpl)
+    return re.sub(r"\{\{(p|a|head|pic|zoom|drip|strip|x|xhref|pmap|plist|flavors):([^}]+)\}\}", sub, tpl)
 
 
 def main():

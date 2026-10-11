@@ -16,6 +16,21 @@
       "key": "partners_sub",
       "text": "เจลาโต้เรามีให้ทานที่ไหนบ้าง",
       "source": "Partner poster supplied by the owner, 2026-10-11"
+    },
+    {
+      "key": "flavors_title",
+      "text": "ICE CREAM FLAVORS",
+      "source": "Flavor menu posters supplied by the owner, 2026-10-11"
+    },
+    {
+      "key": "flavors_best",
+      "text": "TOP12 BEST SELLER",
+      "source": "TOP12 poster supplied by the owner, 2026-10-11"
+    },
+    {
+      "key": "flavors_all",
+      "text": "ทั้งหมด",
+      "source": "Filter label for the flavor list (site UI)"
     }
   ]
 }
