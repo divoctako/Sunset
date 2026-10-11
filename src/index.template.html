@@ -189,10 +189,12 @@
 <!-- SUNSET x PARTNER -->
 <section class="sec sec-white sec-partners" id="partners">
   <div class="wrap split partners-grid">
-    <div class="pmap-card" data-reveal="fade">{{pmap:all}}</div>
+    <div class="pmap-card" data-reveal="fade">
+      <h2 class="sec-head partners-title"><img class="partners-logo" src="assets/logo.webp" alt="" width="447" height="447"><span data-x="partners_title">{{x:partners_title}}</span></h2>
+      {{pmap:all}}
+    </div>
     <div class="lane" aria-hidden="true"></div>
     <div class="col-text partners-text">
-      <h2 class="sec-head partners-title" data-reveal style="--d:0"><img class="partners-logo" src="assets/logo.webp" alt="" width="447" height="447"><span data-x="partners_title">{{x:partners_title}}</span></h2>
       <p class="sub-lead" data-x="partners_sub" data-reveal style="--d:1">{{x:partners_sub}}</p>
       {{plist:all}}
     </div>
@@ -236,7 +238,7 @@
   {{drip:#9A6544;53}}
 </div>
 
-<!-- ICE CREAM FLAVORS -->
+<!-- GELATO FLAVORS -->
 <section class="sec sec-white sec-flavors" id="flavors">
   <div class="wrap">
     <div class="flavors-box">
