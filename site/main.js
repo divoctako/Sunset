@@ -65,6 +65,52 @@
     }
   });
 
+  /* ---------- Partner map: pins drop in; cards and pins highlight each other ---------- */
+  const pmap = document.querySelector('.pmap');
+  if (pmap) {
+    const pins = [...pmap.querySelectorAll('.pin')];
+    const cards = [...document.querySelectorAll('.pcard')];
+    const drop = () => pmap.classList.add('dropped');
+    if (reduceMotion.matches || !('IntersectionObserver' in window)) drop();
+    else {
+      const mio = new IntersectionObserver(es => {
+        if (es.some(e => e.isIntersecting)) { drop(); mio.disconnect(); }
+      }, { threshold: 0.3 });
+      mio.observe(pmap);
+    }
+    const setActive = id => {
+      pins.forEach(p => {
+        const on = p.dataset.place === id;
+        if (on && !p.classList.contains('active')) {
+          p.classList.remove('ping');
+          void p.offsetWidth;
+          p.classList.add('ping');
+        }
+        p.classList.toggle('active', on);
+      });
+      cards.forEach(c => c.classList.toggle('active', c.dataset.place === id));
+    };
+    cards.forEach(c => {
+      c.addEventListener('mouseenter', () => setActive(c.dataset.place));
+      c.addEventListener('focus', () => setActive(c.dataset.place));
+      c.addEventListener('click', () => {
+        setActive(c.dataset.place);
+        // On phones the map scrolls away above the list; bring it back into view.
+        if (mobileMQ.matches) pmap.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'center' });
+      });
+      c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.click(); } });
+    });
+    document.querySelector('.plist').addEventListener('mouseleave', () => setActive(null));
+    pins.forEach(p => {
+      p.addEventListener('click', () => {
+        setActive(p.dataset.place);
+        const card = cards.find(c => c.dataset.place === p.dataset.place);
+        if (card && mobileMQ.matches) card.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'center' });
+      });
+      p.addEventListener('mouseenter', () => setActive(p.dataset.place));
+    });
+  }
+
   /* ---------- Active section in menu ---------- */
   const navLinks = [...nav.querySelectorAll('a')];
   const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
@@ -353,7 +399,7 @@
   }
 
   /* Tap an empty spot: pop a falling scoop into sprinkles, or toss a new one */
-  const BUSY = 'a, button, input, label, dialog, .site-header, .fab, .col-text, .hero-copy, .hero-media, ' +
+  const BUSY = 'a, button, input, label, dialog, .site-header, .fab, .pmap-card, .col-text, .hero-copy, .hero-media, ' +
     '.pkg-card, .gallery, .contact-links, .frame, .photo-strip, .site-footer';
   document.addEventListener('click', e => {
     if (reduceMotion.matches || e.button !== 0 || e.target.closest(BUSY)) return;

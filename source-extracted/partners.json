@@ -1,0 +1,137 @@
+{
+  "source": "Partner poster supplied by the brand owner (source-extracted/partners/partner-poster.jpg). Province and shop text copied from the poster as written.",
+  "note": "lat/lon are approximate town/district centres, nudged slightly apart in the crowded Northeast so pins stay readable. Not exact shop addresses.",
+  "places": [
+    {
+      "id": "loei",
+      "province": "LOEI",
+      "lat": 17.486,
+      "lon": 101.722,
+      "shops": [
+        {
+          "name": "BERLY'S SWEET&ICE CREAM",
+          "logo": "berlys"
+        }
+      ]
+    },
+    {
+      "id": "udon",
+      "province": "UDON",
+      "lat": 17.415,
+      "lon": 102.787,
+      "shops": [
+        {
+          "name": "BUTTER SCOOP",
+          "logo": "butterscoop"
+        }
+      ]
+    },
+    {
+      "id": "sawang",
+      "province": "SAWANG DAEN DIN",
+      "lat": 17.46,
+      "lon": 103.38,
+      "shops": [
+        {
+          "name": "SCOOP & BUN",
+          "logo": "boxbuner"
+        }
+      ]
+    },
+    {
+      "id": "wanon",
+      "province": "WANON NIWAT",
+      "lat": 17.74,
+      "lon": 103.86,
+      "shops": [
+        {
+          "name": "TIM.NIM.TIM.NIM",
+          "logo": "timnim"
+        }
+      ]
+    },
+    {
+      "id": "khonkaen",
+      "province": "KHONKAEN/MAHA SARAKHAM",
+      "lat": 16.5,
+      "lon": 102.74,
+      "shops": [
+        {
+          "name": "SUNSET GELATO",
+          "branch": "KRAJOM",
+          "logo": "sunset"
+        },
+        {
+          "name": "SUNSET GELATO",
+          "branch": "SAEN SAM RAN",
+          "logo": "sunset"
+        }
+      ]
+    },
+    {
+      "id": "msu",
+      "province": "KHONKAEN/MAHA SARAKHAM",
+      "lat": 16.18,
+      "lon": 103.26,
+      "shops": [
+        {
+          "name": "SUNSET GELATO",
+          "branch": "MSU",
+          "logo": "sunset"
+        }
+      ]
+    },
+    {
+      "id": "roiet",
+      "province": "ROI ET",
+      "lat": 16.12,
+      "lon": 103.78,
+      "shops": [
+        {
+          "name": "NUETRON CAFE & BAKERY",
+          "logo": "neutron"
+        }
+      ]
+    },
+    {
+      "id": "phonsai",
+      "province": "ROI ET",
+      "lat": 15.7,
+      "lon": 104.26,
+      "shops": [
+        {
+          "name": "MELT ME (PHON SAI)",
+          "logo": "meltme"
+        }
+      ]
+    },
+    {
+      "id": "ubon",
+      "province": "UBON",
+      "lat": 15.245,
+      "lon": 104.847,
+      "shops": [
+        {
+          "name": "MILLY GELATO 1",
+          "logo": "milly"
+        },
+        {
+          "name": "MILLY GELATO 2",
+          "logo": "milly"
+        }
+      ]
+    },
+    {
+      "id": "bangkok",
+      "province": "BANGKOK",
+      "lat": 13.8,
+      "lon": 100.58,
+      "shops": [
+        {
+          "name": "SHIBAINU STORY(FARM&CAFE)",
+          "logo": "shiba"
+        }
+      ]
+    }
+  ]
+}

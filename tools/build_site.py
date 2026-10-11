@@ -115,6 +115,59 @@ def strip(_):
     return "".join(items)
 
 
+PARTNERS = ROOT / "source-extracted" / "partners.json"
+MAP = ROOT / "source-extracted" / "thailand-map.json"
+
+
+def partner_logo(key):
+    if key == "sunset":
+        return "assets/logo.webp"
+    return f"assets/partners/{key}.webp"
+
+
+def pmap(_):
+    """Thailand map with one drop-pin per partner place (decorative; the list carries the content)."""
+    m = json.loads(MAP.read_text(encoding="utf-8"))
+    places = json.loads(PARTNERS.read_text(encoding="utf-8"))["places"]
+    _, _, w, h = (float(v) for v in m["viewBox"].split())
+    f = m["frame"]
+    out = [f'<div class="pmap" style="aspect-ratio:{w:.0f}/{h:.0f}">',
+           f'<svg class="pmap-svg" viewBox="{m["viewBox"]}" aria-hidden="true" focusable="false">',
+           '<defs><linearGradient id="thGrad" x1="0" y1="0" x2="0" y2="1">'
+           '<stop offset="0" stop-color="#FFB25C"/><stop offset="1" stop-color="#F6861A"/></linearGradient></defs>']
+    out += [f'<path class="pm-nb" d="{d}"/>' for d in m["neighbours"]]
+    out.append(f'<path class="pm-th" d="{m["thailand"]}"/>')
+    out.append('</svg>')
+    for i, p in enumerate(places):
+        x = (p["lon"] - f["lon0"]) * f["k"] * f["scale"] / w * 100
+        y = (f["lat1"] - p["lat"]) * f["scale"] / h * 100
+        shop = p["shops"][0]
+        tip = " / ".join(s["name"] + (" " + s["branch"] if s.get("branch") else "") for s in p["shops"])
+        count = f'<span class="pin-count">{len(p["shops"])}</span>' if len(p["shops"]) > 1 else ""
+        out.append(
+            f'<span class="pin" data-place="{p["id"]}" style="left:{x:.2f}%;top:{y:.2f}%;--i:{i}" aria-hidden="true">'
+            f'<span class="pin-shadow"></span>'
+            f'<span class="pin-body"><img src="{partner_logo(shop["logo"])}" alt="" width="40" height="40" loading="lazy">{count}</span>'
+            f'<span class="pin-tip">{esc(tip)}</span></span>')
+    out.append('</div>')
+    return "".join(out)
+
+
+def plist(_):
+    places = json.loads(PARTNERS.read_text(encoding="utf-8"))["places"]
+    items, k = [], 0
+    for p in places:
+        for s in p["shops"]:
+            branch = f'<span class="pc-branch">{esc(s["branch"])}</span>' if s.get("branch") else ""
+            items.append(
+                f'<li class="pcard" data-place="{p["id"]}" tabindex="0" data-reveal style="--d:{k}">'
+                f'<img class="pc-logo" src="{partner_logo(s["logo"])}" alt="" width="56" height="56" loading="lazy">'
+                f'<span class="pc-text"><span class="pc-prov">{esc(p["province"])}</span>'
+                f'<span class="pc-name">{esc(s["name"])}</span>{branch}</span></li>')
+            k += 1
+    return '<ul class="plist">' + "".join(items) + "</ul>"
+
+
 def render(tpl):
     def sub(match):
         kind, arg = match.group(1), match.group(2)
@@ -132,13 +185,17 @@ def render(tpl):
             return esc(extra[arg]["text"])
         if kind == "xhref":
             return attr(extra[arg]["href"])
+        if kind == "pmap":
+            return pmap(arg)
+        if kind == "plist":
+            return plist(arg)
         if kind == "drip":
             return drip(arg)
         if kind == "strip":
             return strip(arg)
         raise ValueError(kind)
 
-    return re.sub(r"\{\{(p|a|head|pic|zoom|drip|strip|x|xhref):([^}]+)\}\}", sub, tpl)
+    return re.sub(r"\{\{(p|a|head|pic|zoom|drip|strip|x|xhref|pmap|plist):([^}]+)\}\}", sub, tpl)
 
 
 def main():

@@ -32,6 +32,7 @@
         <li><a href="#about" data-p="6">{{p:6}}</a></li>
         <li><a href="#wholesale" data-p="14">{{p:14}}</a></li>
         <li><a href="#packages" data-p="22">{{p:22}}</a></li>
+        <li><a href="#partners" data-x="partners_title">{{x:partners_title}}</a></li>
         <li><a href="#catering" data-p="41">{{p:41}}</a></li>
         <li><a href="#contact" data-p="59">{{p:59}}</a></li>
       </ul>
@@ -182,6 +183,23 @@
 
 <div class="wave wave-white-cream" aria-hidden="true">
   {{drip:#B9B6EE;41}}
+</div>
+
+<!-- SUNSET x PARTNER -->
+<section class="sec sec-white sec-partners" id="partners">
+  <div class="wrap split partners-grid">
+    <div class="pmap-card" data-reveal="fade">{{pmap:all}}</div>
+    <div class="lane" aria-hidden="true"></div>
+    <div class="col-text partners-text">
+      <h2 class="sec-head partners-title" data-reveal style="--d:0"><img class="partners-logo" src="assets/logo.webp" alt="" width="447" height="447"><span data-x="partners_title">{{x:partners_title}}</span></h2>
+      <p class="sub-lead" data-x="partners_sub" data-reveal style="--d:1">{{x:partners_sub}}</p>
+      {{plist:all}}
+    </div>
+  </div>
+</section>
+
+<div class="wave wave-cream-white" aria-hidden="true">
+  {{drip:#FFD3A6;61}}
 </div>
 
 <!-- 04 CATERING -->
